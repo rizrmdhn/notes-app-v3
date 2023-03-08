@@ -80,13 +80,9 @@ function DetailsNote() {
                 {showFormattedDate(viewData.createdAt)}
               </h5>
               <div className="notes-content">
-                <h5
-                  name="notes-content"
-                  id="content"
-                  cols="30"
-                  rows="10"
-                  value={content}
-                ></h5>
+                <h5 name="notes-content" id="content" cols="30" rows="10">
+                  {content}
+                </h5>
               </div>
             </>
           ) : (
