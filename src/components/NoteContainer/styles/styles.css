@@ -8,13 +8,13 @@
 }
 .note-container > .card {
   width: 18rem;
-  background-color: #181818;
-  border: white solid 1px;
-  border-top: white solid 5px;
+  background-color: var(--background-color);
+  border: var(--border-color) solid 1px;
+  border-top: var(--border-color) solid 5px;
   margin: 10px;
 }
 .note-container > .card > .card-body > .card-title > .card-notes-title {
-  color: white;
+  color: var(--font-color);
   font-size: 20px;
   font-weight: 600;
 }

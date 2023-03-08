@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addNote } from "../utils/local-data";
 import toast from "../components/Toast";
+import LocaleContext from "../contexts/LocaleContext";
+import { addNote } from "../utils/api";
 
 function AddNewNote() {
+  const { locale } = useContext(LocaleContext);
+
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [limit, setLimit] = useState(50);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -29,16 +33,25 @@ function AddNewNote() {
     <div className="add-new-note-container">
       <div className="add-new-note">
         <div className="add-new-note-title">
+          <label htmlFor="title-input">
+            {locale === "id" ? "Sisa Karakter: " : "Remaining Characters: "}
+            {limit - title.length}
+          </label>
           <input
+            id="title-input"
             type="text"
-            placeholder="Masukkan Title Catatan"
+            placeholder={
+              locale === "id" ? "Masukkan Judul Catatan" : "Enter Note Title"
+            }
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value.slice(0, limit))}
           />
         </div>
         <div className="add-new-note-content">
           <textarea
-            placeholder="Take a note..."
+            placeholder={
+              locale === "id" ? "Masukkan Isi Catatan" : "Enter Note Content"
+            }
             value={body}
             onChange={(e) => setBody(e.target.value)}
           />

@@ -1,40 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  archiveNote,
-  deleteNote,
-  editNote,
-  getNote,
-  unarchiveNote,
-} from "../utils/local-data";
 import { showFormattedDate } from "../utils";
 import UnArchiveNote from "../components/Button/UnArchiveNote";
 import ArchiveNote from "../components/Button/ArchiveNote";
 import DeleteNote from "../components/Button/DeleteNote";
-import SaveNote from "../components/Button/SaveNote";
 import toast from "../components/Toast";
+import { getNote, archiveNote, deleteNote, unarchiveNote } from "../utils/api";
+import Loading from "../components/Loading";
 
 function DetailsNote() {
   const navigate = useNavigate();
 
   const [viewData, setViewData] = useState([]);
-  const [editMode, setEditMode] = useState(false);
   const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
 
+  async function fetchNoteData() {
+    setIsLoading(true);
+    setTimeout(async () => {
+      const { data } = await getNote(id);
+      if (data) {
+        setViewData(data);
+        setContent(data.body);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        navigate("/notes/Error");
+      }
+    }, 1500);
+  }
+
   useEffect(() => {
-    const datas = getNote(id);
-    if (datas) {
-      setViewData(datas);
-      setContent(datas.body);
-    } else {
-      navigate("/notes/Error");
-    }
+    fetchNoteData();
   }, []);
 
-  const onArchiveNote = (id) => {
-    archiveNote(id);
+  const onArchiveNote = async () => {
+    await archiveNote(id);
 
     toast.fire({
       icon: "success",
@@ -44,8 +47,8 @@ function DetailsNote() {
     navigate("/");
   };
 
-  const onUnArchiveNote = (id) => {
-    unarchiveNote(id);
+  const onUnArchiveNote = async () => {
+    await unarchiveNote(id);
 
     toast.fire({
       icon: "success",
@@ -55,8 +58,8 @@ function DetailsNote() {
     navigate("/");
   };
 
-  const onDeleteNote = (id) => {
-    deleteNote(id);
+  const onDeleteNote = async () => {
+    await deleteNote(id);
 
     toast.fire({
       icon: "success",
@@ -66,59 +69,38 @@ function DetailsNote() {
     navigate("/");
   };
 
-  const onChangeNote = (e) => {
-    const editedContent = e.target.value;
-    if (editedContent !== viewData.body) {
-      setEditMode(true);
-      setContent(editedContent);
-    } else {
-      setContent(editedContent);
-      setEditMode(false);
-    }
-  };
-
-  const onEditNote = (id, title) => {
-    editNote({ id, title, body: content });
-    setEditMode(false);
-
-    toast.fire({
-      icon: "success",
-      title: "Catatan berhasil diedit",
-    });
-
-    navigate("/");
-  };
-
   return (
     <div className="details-note">
       <div className="row">
         <div className="col">
-          <h1 className="notes-title">{viewData.title}</h1>
-          <h5 className="notes-date-created text-muted">
-            {showFormattedDate(viewData.createdAt)}
-          </h5>
-          <div className="notes-content">
-            <textarea
-              name="notes-content"
-              id="content"
-              cols="30"
-              rows="10"
-              value={content}
-              onChange={(e) => onChangeNote(e)}
-            ></textarea>
-          </div>
+          {isLoading !== true ? (
+            <>
+              <h1 className="notes-title">{viewData.title}</h1>
+              <h5 className="notes-date-created text-muted">
+                {showFormattedDate(viewData.createdAt)}
+              </h5>
+              <div className="notes-content">
+                <h5
+                  name="notes-content"
+                  id="content"
+                  cols="30"
+                  rows="10"
+                  value={content}
+                ></h5>
+              </div>
+            </>
+          ) : (
+            <Loading />
+          )}
         </div>
       </div>
       <div className="action-button">
         {viewData.archived ? (
-          <UnArchiveNote UnArchiveNotes={() => onUnArchiveNote(viewData.id)} />
+          <UnArchiveNote UnArchiveNotes={() => onUnArchiveNote()} />
         ) : (
-          <ArchiveNote ArchiveNotes={() => onArchiveNote(viewData.id)} />
+          <ArchiveNote ArchiveNotes={() => onArchiveNote()} />
         )}
-        <DeleteNote DeleteNotes={() => onDeleteNote(viewData.id)} />
-        {editMode ? (
-          <SaveNote SaveNotes={() => onEditNote(viewData.id, viewData.title)} />
-        ) : null}
+        <DeleteNote DeleteNotes={() => onDeleteNote()} />
       </div>
     </div>
   );

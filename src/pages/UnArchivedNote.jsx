@@ -1,23 +1,57 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import NoteContainer from "../components/NoteContainer";
 import SearchBar from "../components/SearchBar";
 import AddNote from "../components/Button/AddNote";
+import Loading from "../components/Loading";
+import { getActiveNotes } from "../utils/api";
+import LocaleContext from "../contexts/LocaleContext";
 
-function UnArchivedNote({ notes, SearchNotesItem, querySearch }) {
-  const unArchivedNotes = notes.filter((note) => note.archived === false);
+function UnArchivedNote({
+  isLoading,
+  setIsLoading,
+  SearchNotesItem,
+  querySearch,
+}) {
+  const { locale } = useContext(LocaleContext);
+
+  const [notes, setNotes] = useState([]);
+
+  async function fetchNotes() {
+    setIsLoading(true);
+    setTimeout(async () => {
+      const { data } = await getActiveNotes();
+      setNotes(data);
+      setIsLoading(false);
+    }, 1500);
+  }
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const filteredNotes = notes.filter((note) => {
+    return note.title.toLowerCase().includes(querySearch.toLowerCase());
+  });
 
   return (
     <>
       <SearchBar SearchNotesItem={SearchNotesItem} querySearch={querySearch} />
-      {unArchivedNotes.length !== 0 ? (
-        <NoteContainer notes={unArchivedNotes} />
+      {isLoading !== true ? (
+        <>
+          {notes.length !== 0 ? (
+            <NoteContainer notes={filteredNotes} />
+          ) : (
+            <div className="no-archived-note">
+              <h4 className="empty-notes-message text-center">
+                {locale === "id"
+                  ? "Tidak ada catatan yang aktif"
+                  : "No active notes"}
+              </h4>
+            </div>
+          )}
+        </>
       ) : (
-        <div className="no-archived-note">
-          <h4 className="empty-notes-message text-center">
-            There is no active notes
-          </h4>
-        </div>
+        <Loading />
       )}
       <AddNote />
     </>
@@ -25,8 +59,9 @@ function UnArchivedNote({ notes, SearchNotesItem, querySearch }) {
 }
 
 UnArchivedNote.propTypes = {
-  notes: PropTypes.array,
   SearchNotesItem: PropTypes.func.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   querySearch: PropTypes.string,
 };
 
