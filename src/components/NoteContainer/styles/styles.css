@@ -1,0 +1,20 @@
+.note-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1rem;
+}
+.note-container > .card {
+  width: 18rem;
+  background-color: #181818;
+  border: white solid 1px;
+  border-top: white solid 5px;
+  margin: 10px;
+}
+.note-container > .card > .card-body > .card-title > .card-notes-title {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}

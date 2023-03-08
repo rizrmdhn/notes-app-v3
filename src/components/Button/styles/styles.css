@@ -1,0 +1,97 @@
+.add-note-button-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+}
+.add-note-button {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.add-note-button > .add-new-note-button {
+  font-size: 30px;
+  margin: auto;
+  color: black;
+}
+.btn-archive-note {
+  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  border: none !important;
+  border-radius: 50% !important;
+  background-color: #f5f5f5 !important;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.bi.bi-box-arrow-in-down {
+  font-size: 30px;
+  margin: auto;
+  color: black;
+}
+.btn-unarchive-note {
+  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  border: none !important;
+  border-radius: 50% !important;
+  background-color: #f5f5f5 !important;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.bi.bi-box-arrow-in-up {
+  font-size: 30px;
+  margin: auto;
+  color: black;
+}
+.btn-delete-note {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  border: none !important;
+  border-radius: 50% !important;
+  background-color: #f5f5f5 !important;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.bi.bi-trash {
+  font-size: 30px;
+  margin: auto;
+  color: black;
+}
+
+.btn-save-note {
+  margin-left: 10px;
+  width: 50px;
+  height: 50px;
+  border: none !important;
+  border-radius: 50% !important;
+  background-color: #f5f5f5 !important;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.btn-save-note > .bi-check-lg {
+  font-size: 30px;
+  margin: auto;
+  color: black;
+}
