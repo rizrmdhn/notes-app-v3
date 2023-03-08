@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useSearchParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import Header from "./components/Header";
 import ArchivedNote from "./pages/ArchivedNote";
 import UnArchivedNote from "./pages/UnArchivedNote";
@@ -68,9 +67,5 @@ function App() {
     </div>
   );
 }
-
-App.propTypes = {
-  notes: PropTypes.array,
-};
 
 export default App;

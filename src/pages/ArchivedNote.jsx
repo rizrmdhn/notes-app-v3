@@ -12,7 +12,9 @@ function ArchivedNote({ notes, SearchNotesItem, querySearch }) {
         <NoteContainer notes={archivedNotes} />
       ) : (
         <div className="no-archived-note">
-          <h4 className="empty-notes-message text-center">There is no notes</h4>
+          <h4 className="empty-notes-message text-center">
+            There is no archived notes
+          </h4>
         </div>
       )}
     </>

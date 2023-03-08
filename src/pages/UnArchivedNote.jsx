@@ -14,7 +14,9 @@ function UnArchivedNote({ notes, SearchNotesItem, querySearch }) {
         <NoteContainer notes={unArchivedNotes} />
       ) : (
         <div className="no-archived-note">
-          <h4 className="empty-notes-message text-center">There is no notes</h4>
+          <h4 className="empty-notes-message text-center">
+            There is no active notes
+          </h4>
         </div>
       )}
       <AddNote />
